@@ -7,8 +7,8 @@ const greenSound = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.
 const redSound = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
 const yellowSound = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');
 const blueSound = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');
-const winSound = new Audio('assets/win.wav');
-const wrongSound = new Audio('assets/wrong.wav');
+const winSound = new Audio('https://kd-public.s3.us-east-2.amazonaws.com/win.wav');
+const wrongSound = new Audio('https://kd-public.s3.us-east-2.amazonaws.com/wrong.wav');
 wrongSound.volume = .5;
 
 let darkMode = true;
@@ -102,13 +102,11 @@ function playerTurn(clicked) {
       }
     }
   } else {
-
-      wrongSound.play();
-      setTimeout(() => {
-        wrongSound.pause();
-        wrongSound.currentTime = 0;
-      }, 500);
-
+    wrongSound.play();
+    setTimeout(() => {
+      wrongSound.pause();
+      wrongSound.currentTime = 0;
+    }, 500);
 
     if (simon.strict) {
       prompt.innerText = 'Wrong move in STRICT mode! Starting new game...';
@@ -118,7 +116,7 @@ function playerTurn(clicked) {
 
       setTimeout(() => {
         showPattern(() => {
-          setTimeout(() => { prompt.innerText = 'your turn'; }, 500);
+          setTimeout(() => { prompt.innerText = 'Your turn (copy the pattern).'; }, 500);
         });
       }, 1500);
     }
