@@ -1,5 +1,22 @@
 body {
+	height: 100vh;
+    margin: 0;
+    padding: 10px;
+    background: #000;
+    color: #fff;
 	text-align: center;
+	font-family: 'B612 Mono', monospace;
+}
+
+h1 {
+	margin-bottom: 10px;
+}
+
+button {
+	outline: none;
+}
+button:hover {
+	cursor: pointer;
 }
 
 .clicked {
@@ -8,54 +25,128 @@ body {
 
 #buttons-container {
 	position: relative;
-	max-width: 320px;
+	max-width: 260px;
 	width: 100%;
-	height: 320px;
+	height: 260px;
 	margin: 20px auto 0 auto;
 }
 
 .btn {
 	position: absolute;
-	width: 150px;
-    height: 150px;
+	width: 120px;
+    height: 120px;
     border-radius: 50%;
     padding: 0;
     border: none;
     transition: transform .1s linear;
     -webkit-transition: transform linear;
-    outline: none;
 }
 
 .green {
 	top: 0;
 	left: 0;
 	background-color: #1ab91a;
-    box-shadow: inset 1px 6px 12px #90ee90, inset -1px -10px 5px #017101, 1px 2px 3px #4e4e4e;
+    box-shadow: inset 1px 10px 5px #49f949, inset -1px -10px 5px #017101, #383838 1px 2px 7px;
+}
+.green.dark {
+	box-shadow: inset 1px 10px 5px #49f949, inset -1px -10px 5px #017101;
 }
 .red {
 	top: 0;
 	right: 0;
 	background-color: #ff0000;
-	box-shadow: inset 1px 6px 12px #ee9090, inset -1px -10px 5px #b71c1c, 1px 2px 3px #4e4e4e;
+	box-shadow: inset 1px 10px 5px #f74848, inset -1px -10px 5px #b71c1c, #383838 1px 2px 7px;
+}
+.red.dark {
+	box-shadow: inset 1px 10px 5px #f74848, inset -1px -10px 5px #b71c1c;
 }
 .yellow {
 	bottom: 0;
 	left: 0;
 	background-color: yellow;
-	box-shadow: inset 1px 6px 12px #f3f302, inset -1px -10px 5px #dac933, 1px 2px 3px #4e4e4e;
+	box-shadow: inset 1px 10px 5px #f8f743, inset -1px -10px 5px #7b7504, #383838 1px 2px 7px;
+}
+.yellow.dark {
+	box-shadow: inset 1px 10px 5px #f8f743, inset -1px -10px 5px #7b7504;
 }
 .blue {
 	bottom: 0;
 	right: 0;
 	background-color: #03A9F4;
-    box-shadow: inset 1px 6px 12px #add8e6, inset -1px -10px 5px #0073a7, 1px 2px 3px #4e4e4e;
+    box-shadow: inset 1px 10px 5px #43ebf8, inset -1px -10px 5px #046e7c, #383838 1px 2px 7px;
+}
+.blue.dark {
+	box-shadow: inset 1px 10px 5px #43ebf8, inset -1px -10px 5px #046e7c;
 }
 
+.other-buttons {
+	margin: 30px auto 20px auto;
+	width: 150px;
+}
+.other-buttons button {
+	display: inline-block;
+	margin: 0 10px;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 4px solid #fff;
+}
 #start-btn {
-	position: absolute;
-	bottom: -40px;
-	left: 0;
-	right: 0;
-	margin: 0 auto;
-	width: 50px;
+	background-color: #148214;
+    box-shadow: inset 1px 1px 5px #65c365, inset -1px -4px 5px #010c01;
+}
+#strict-btn {
+	background-color: #cc0000;
+    box-shadow: inset 1px 1px 5px #c55353, inset -1px -4px 5px #310303;
+}
+.other-clicked#start-btn {
+    box-shadow: inset 1px 1px 5px #171414, inset -1px -1px 10px #65c365;
+}
+.other-clicked#strict-btn {
+    box-shadow: inset 1px 1px 5px #000000, inset -1px -1px 10px #8e3333;
+}
+
+.other-labels {
+	margin-top: 5px;
+	font-size: 11pt;
+}
+#start-label {
+	margin-left: 5px;
+}
+#strict-label {
+	margin-left: 9px;
+}
+
+#dark-btn {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	border: 4px solid #fff;
+	background: #000000f0;
+    box-shadow: inset 1px 1px 5px #525252, inset -1px -1px 10px #000000;
+}
+#dark-btn.dark {
+	background: #212121f0;
+    box-shadow: inset 1px 1px 5px #000000, inset -1px -1px 10px #000000;
+}
+#dark-label {
+	font-synthesis: 11pt;
+	display: block;
+}
+
+@media (max-width: 500px) {
+	h1 {
+		font-size: 16pt;
+	}
+	p {
+		margin: .5em;
+	}
+	#buttons-container {
+		max-width: 220px;
+		height: 220px;
+	}
+	.btn {
+		width: 100px;
+		height: 100px;
+	}
 }

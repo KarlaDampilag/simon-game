@@ -2,20 +2,31 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Simon Game</title>
 		<link rel="stylesheet" href="style.css">
+		<link href="https://fonts.googleapis.com/css?family=B612+Mono&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<h1>Simon Game</h1>
 		<p id="round-p">Round: <span id="round-span">0</span></p>
-		<p>Status: <span id="prompt">click Start</span></p>
+		<p>Status: <span id="prompt">Click Start</span></p>
 		<div id="buttons-container">
-			<button id="1" class="btn green" onClick="addToPlayer(this.id)"></button>
-			<button id="2" class="btn red" onClick="addToPlayer(this.id)"></button>
-			<button id="3" class="btn yellow" onClick="addToPlayer(this.id)"></button>
-			<button id="4" class="btn blue" onClick="addToPlayer(this.id)"></button>
-			<button id="start-btn" onClick="newGame()">Start</button>
+			<button id="1" class="btn green dark" onClick="addToPlayer(this.id)"></button>
+			<button id="2" class="btn red dark" onClick="addToPlayer(this.id)"></button>
+			<button id="3" class="btn yellow dark" onClick="addToPlayer(this.id)"></button>
+			<button id="4" class="btn blue dark" onClick="addToPlayer(this.id)"></button>
 		</div>
+			<div class="other-buttons">
+				<button id="start-btn" class="other-btn" onClick="newGame()"></button>
+				<button id="strict-btn" class="other-btn" onClick="toggleStrict()"></button>
+				<div class="other-labels">
+					<label id="start-label" class="other-label">Start</label>
+					<label id="strict-label" class="other-label">Strict</label>
+				</div>
+			</div>
+			<button id="dark-btn" class="other-btn dark" onClick="toggleDarkMode()"></button>
+			<label id="dark-label">Dark Mode</label>
 	</body>
 	<script src="script.js"></script>
 </html>

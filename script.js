@@ -1,5 +1,17 @@
-let prompt = document.getElementById('prompt');
-let roundText = document.getElementById('round-span');
+const prompt = document.getElementById('prompt');
+const roundText = document.getElementById('round-span');
+const startBtn = document.getElementById('start-btn');
+const strictBtn = document.getElementById('strict-btn');
+
+const greenSound = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3');
+const redSound = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
+const yellowSound = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');
+const blueSound = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');
+const winSound = new Audio('assets/win.wav');
+const wrongSound = new Audio('assets/wrong.wav');
+wrongSound.volume = .5;
+
+let darkMode = true;
 
 const simon = {
   round: 0,
@@ -10,15 +22,19 @@ const simon = {
 }
 
 function newGame() {
+  startBtn.classList.add('other-clicked');
+  setTimeout(() => {
+    startBtn.classList.remove('other-clicked');
+  }, 200);
   simon.generatedPattern = [];
-  simon.round = 1;
-  roundText.innerText = simon.round;
+  simon.round = 0;
   nextRound();
 }
 
 function nextRound() {
   setTimeout(() => {
     simon.round++;
+    roundText.innerText = simon.round;
     addToPattern();
   }, 1000);
 }
@@ -26,16 +42,17 @@ function nextRound() {
 function addToPattern() {
   simon.generatedPattern.push(simon.choices[Math.floor(Math.random()*4)]);
   showPattern(() => {
-    setTimeout(() => {prompt.innerText = 'your turn';}, 500);
+    setTimeout(() => { prompt.innerText = 'Your turn (copy the pattern).'; }, 500);
   });
 }
 
 function showPattern(callback) {  
-  prompt.innerText = 'showing pattern...';
+  prompt.innerText = 'Showing pattern...';
   let index = 0;
   
   let pattern = setInterval(() => {
     lightButtons(simon.generatedPattern[index]);
+    soundButton(simon.generatedPattern[index]);
     index++;
 
     if (index === simon.generatedPattern.length) {
@@ -61,10 +78,15 @@ function resetPlayer() {
 }
 
 function addToPlayer(id) {
-  lightButtons(id);
-  let clicked = parseInt(id);
-  simon.playerPattern.push(clicked);
-  playerTurn(clicked);
+  if (simon.generatedPattern.length == 0) {
+    prompt.innerText = 'Click the Start button to start the game first.';
+  } else {
+    lightButtons(id);
+    soundButton(id);
+    let clicked = parseInt(id);
+    simon.playerPattern.push(clicked);
+    playerTurn(clicked);
+  }
 }
 
 function playerTurn(clicked) {
@@ -72,31 +94,114 @@ function playerTurn(clicked) {
 
   if (simon.playerPattern[index] === simon.generatedPattern[index]) {
     if (simon.playerPattern.length === simon.generatedPattern.length) {
-      if (simon.round > 10) {
-        prompt.innerText = 'You beat Simon (whoever he is)!';
+      if (simon.round === 10) {
+        prompt.innerText = 'Congratulations, you beat Simon (whoever he is)!';
+        winSound.play();
       } else {
-        roundText.innerText = simon.round;
         nextRound();
       }
     }
   } else {
-    
+
+      wrongSound.play();
+      setTimeout(() => {
+        wrongSound.pause();
+        wrongSound.currentTime = 0;
+      }, 500);
+
+
     if (simon.strict) {
-      prompt.innerText = 'strict mode - start again';
-      newGame();
+      prompt.innerText = 'Wrong move in STRICT mode! Starting new game...';
+      setTimeout(() => { newGame(); }, 2000);
     } else {
-      prompt.innerText = 'wrong move! Watch the pattern again:';
-      setTimeout(() => {showPattern();}, 1500);
+      prompt.innerText = 'Wrong move! Watch the pattern again:';
+
+      setTimeout(() => {
+        showPattern(() => {
+          setTimeout(() => { prompt.innerText = 'your turn'; }, 500);
+        });
+      }, 1500);
     }
   }
 }
 
-/* TO DO
-  1. Proper interface with buttons, sound, and prompts on the screen.
-      - And when player lost, display number of rounds as his record. "You survived for N rounds"
-        <5 "Needs more practice"
-        5-7 "Not bad, but could be better"
-        8-9 "Almost there, you can do it!"
-  2. Strict mode
-  3. If beat until 10 rounds, prompt and show animated fireworks on the screen.
-*/
+function toggleStrict() {
+  simon.strict = !simon.strict;
+
+  if (simon.strict) {
+    strictBtn.classList.add('other-clicked');
+  } else {
+    strictBtn.classList.remove('other-clicked');
+  }
+}
+
+function soundButton(id) {
+  switch (parseInt(id)) {
+    case 1:
+      if (!greenSound.paused) {
+        greenSound.pause();
+        greenSound.currentTime = 0;
+      }
+      greenSound.play();
+      break;
+    case 2:
+      if (!redSound.paused) {
+        redSound.pause();
+        redSound.currentTime = 0;
+      }
+      redSound.play();
+      break;
+    case 3:
+      if (!yellowSound.paused) {
+        yellowSound.pause();
+        yellowSound.currentTime = 0;
+      }
+      yellowSound.play();
+      break;
+    case 4:
+      if (!blueSound.paused) {
+        blueSound.pause();
+        blueSound.currentTime = 0;
+      }
+      blueSound.play();
+      break;
+    default:
+      break;
+  }
+}
+
+function toggleDarkMode() {
+  darkMode = !darkMode;
+  const body = document.getElementsByTagName('body')[0];
+  const mainButtons = document.querySelectorAll('.btn');
+  const otherButtons = document.querySelectorAll('.other-btn');
+  const darkBtn = document.getElementById('dark-btn');
+
+  if (darkMode) {
+    body.style.background = '#000';
+    body.style.color = '#fff';
+    
+    mainButtons.forEach(button => {
+      button.classList.add('dark');
+    });
+
+    otherButtons.forEach(button => {
+      button.style.border = '4px solid #fff';
+    });
+
+    darkBtn.classList.add('dark');
+  } else {
+    body.style.background = '#fff';
+    body.style.color = '#000';
+
+    otherButtons.forEach(button => {
+      button.style.border = '4px solid #000';
+    });
+
+    mainButtons.forEach(button => {
+      button.classList.remove('dark');
+    });
+
+    darkBtn.classList.remove('dark');
+  }
+}
